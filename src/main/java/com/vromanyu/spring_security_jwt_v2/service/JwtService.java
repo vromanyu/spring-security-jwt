@@ -2,8 +2,6 @@ package com.vromanyu.spring_security_jwt_v2.service;
 
 import com.vromanyu.spring_security_jwt_v2.constants.ApplicationConstants;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
@@ -25,6 +23,7 @@ public class JwtService {
  private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(ApplicationConstants.JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
  public String generateToken(UserDetails user) {
+  logger.info("secret key: {}", SECRET_KEY);
   String token = Jwts.builder().setSubject(user.getUsername())
    .setIssuedAt(new Date())
    .setExpiration(Date.from(Instant.now().plusMillis(expiration)))

@@ -2,6 +2,7 @@ package com.vromanyu.spring_security_jwt_v2.service;
 
 import com.vromanyu.spring_security_jwt_v2.constants.ApplicationConstants;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;

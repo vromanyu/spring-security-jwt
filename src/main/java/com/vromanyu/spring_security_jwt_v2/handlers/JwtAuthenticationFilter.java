@@ -54,10 +54,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     logger.info("authenticated user: {}", username);
     logger.info("user was passed to security context");
    }
-   filterChain.doFilter(request, response);
   } catch (Exception e) {
    logger.info("exception caught in JwtAuthenticationFilter: {}", e.getMessage());
    request.getRequestDispatcher("/login").forward(request, response);
+  } finally {
+  filterChain.doFilter(request, response);
   }
  }
 

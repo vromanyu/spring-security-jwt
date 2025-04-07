@@ -1,6 +1,6 @@
 package com.vromanyu.spring_security_jwt_v2.controller;
 
-import com.vromanyu.spring_security_jwt_v2.dto.LoginForm;
+import com.vromanyu.spring_security_jwt_v2.dto.MyUserDTO;
 import com.vromanyu.spring_security_jwt_v2.service.JwtService;
 import com.vromanyu.spring_security_jwt_v2.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +36,8 @@ public class ContentController {
  @GetMapping("/user/home")
  public String handleUserHome() {return "Welcome to user home!";}
 
- @PostMapping("/authenticate")
- public String authenticateAndGetToken(@RequestBody LoginForm form) {
+ @PostMapping("/login")
+ public String authenticateAndGetToken(@RequestBody MyUserDTO form) {
   Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(form.username(), form.password()));
   if (authentication.isAuthenticated()) {
    return jwtService.generateToken(myUserDetailsService.loadUserByUsername(form.username()));

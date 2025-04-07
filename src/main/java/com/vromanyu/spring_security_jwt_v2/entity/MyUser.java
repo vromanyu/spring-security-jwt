@@ -69,4 +69,5 @@ public class MyUser {
    ", role='" + role + '\'' +
    '}';
  }
+
 }

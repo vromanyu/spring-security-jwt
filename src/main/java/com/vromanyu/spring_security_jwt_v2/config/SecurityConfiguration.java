@@ -16,7 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 
 import java.util.Collections;
 
@@ -49,7 +49,7 @@ public class SecurityConfiguration {
     exception.authenticationEntryPoint(new CustomAuthenticationExceptionHandler());
     exception.accessDeniedHandler(new CustomAuthorizationExceptionHandler());
    })
-   .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+   .addFilterAfter(jwtAuthenticationFilter, ExceptionTranslationFilter.class)
    .formLogin(AbstractHttpConfigurer::disable)
    .logout(AbstractHttpConfigurer::disable)
    .httpBasic(AbstractHttpConfigurer::disable)

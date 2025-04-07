@@ -10,14 +10,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Date;
 
 public class CustomAuthenticationExceptionHandler implements AuthenticationEntryPoint {
+
  @Override
  public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
   response.setContentType("application/json");
   String jsonResponse = new ObjectMapper().writeValueAsString(new CustomAuthenticationException(HttpStatus.UNAUTHORIZED.value(), authException.getMessage(), request.getRequestURI(), new Date()));
   response.getWriter().write(jsonResponse);
  }
+
 }

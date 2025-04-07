@@ -2,8 +2,6 @@ package com.vromanyu.spring_security_jwt_v2.controller;
 
 import com.vromanyu.spring_security_jwt_v2.entity.MyUser;
 import com.vromanyu.spring_security_jwt_v2.repository.MyUserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +13,6 @@ public class RegistrationController {
 
  private final MyUserRepository myUserRepository;
  private final PasswordEncoder passwordEncoder;
- private final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
  @Autowired
  public RegistrationController(MyUserRepository myUserRepository, PasswordEncoder passwordEncoder) {

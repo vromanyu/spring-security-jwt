@@ -19,20 +19,17 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class JwtService {
 
- private final static Logger logger = LoggerFactory.getLogger(JwtService.class);
  private static final long expiration = TimeUnit.MINUTES.toMillis(30);
  private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(ApplicationConstants.JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
  public String generateToken(UserDetails user) {
-  String token = Jwts.builder().setSubject(user.getUsername())
+  return Jwts.builder().setSubject(user.getUsername())
    .setIssuedAt(new Date())
    .setExpiration(Date.from(Instant.now().plusMillis(expiration)))
    .signWith(SECRET_KEY)
    .setIssuer("spring-security-application")
    .claim("role", user.getAuthorities().toString())
    .compact();
-  logger.info("generated token: {}", token);
-  return token;
  }
 
  public static Claims parseTokenToClaims(String token) throws JwtException {

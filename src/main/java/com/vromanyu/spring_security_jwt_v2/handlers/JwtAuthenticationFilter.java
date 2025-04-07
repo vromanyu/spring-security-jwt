@@ -24,12 +24,10 @@ import java.text.SimpleDateFormat;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
  private final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
- private final JwtService jwtService;
  private final MyUserDetailsService myUserDetailsService;
 
  @Autowired
- public JwtAuthenticationFilter(JwtService jwtService, MyUserDetailsService myUserDetailsService) {
-  this.jwtService = jwtService;
+ public JwtAuthenticationFilter(MyUserDetailsService myUserDetailsService) {
   this.myUserDetailsService = myUserDetailsService;
  }
 
@@ -45,17 +43,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   try {
    Claims claims = JwtService.parseTokenToClaims(jwt);
    String username = claims.getSubject();
-   logger.info("claims:[{}, {}, {}, {}]", claims.getSubject(), claims.getIssuer(), new SimpleDateFormat("dd/MM/yyyy").format(claims.getExpiration()), claims.get("role"));
    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
     UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    logger.info("authenticated user: {}", username);
-    logger.info("user was passed to security context");
    }
   } catch (Exception e) {
-   logger.info("exception caught in JwtAuthenticationFilter: {}", e.getMessage());
    request.getRequestDispatcher("/login").forward(request, response);
   } finally {
   filterChain.doFilter(request, response);

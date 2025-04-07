@@ -2,6 +2,7 @@ package com.vromanyu.spring_security_jwt_v2.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vromanyu.spring_security_jwt_v2.exception.CustomAuthenticationException;
+import com.vromanyu.spring_security_jwt_v2.exception.CustomAuthorizationException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,7 +18,7 @@ public class CustomAuthorizationExceptionHandler implements AccessDeniedHandler 
  @Override
  public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
   response.setContentType("application/json");
-  String jsonResponse = new ObjectMapper().writeValueAsString(new CustomAuthenticationException(HttpStatus.FORBIDDEN.value(), accessDeniedException.getMessage(), request.getRequestURI(), new Date()));
+  String jsonResponse = new ObjectMapper().writeValueAsString(new CustomAuthorizationException(HttpStatus.FORBIDDEN.value(), accessDeniedException.getMessage(), request.getRequestURI(), new Date()));
   response.getWriter().write(jsonResponse);
  }
 

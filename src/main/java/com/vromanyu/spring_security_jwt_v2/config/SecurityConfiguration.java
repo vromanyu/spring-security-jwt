@@ -18,6 +18,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Collections;
 
@@ -50,6 +51,17 @@ public class SecurityConfiguration {
     exception.accessDeniedHandler(new CustomAuthorizationExceptionHandler());
    })
    .addFilterAfter(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
+   .cors(conf -> {
+    conf.configurationSource(request -> {
+     CorsConfiguration config = new CorsConfiguration();
+     config.setAllowedOrigins(Collections.singletonList("*"));
+     config.setAllowedMethods(Collections.singletonList("*"));
+     config.setAllowedHeaders(Collections.singletonList("*"));
+     config.setAllowCredentials(true);
+     config.setMaxAge(3600L);
+     return config;
+    });
+   })
    .httpBasic(Customizer.withDefaults())
    .formLogin(AbstractHttpConfigurer::disable)
    .logout(AbstractHttpConfigurer::disable)

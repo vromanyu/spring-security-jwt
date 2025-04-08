@@ -7,12 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public final class KeyStore {
 
- private final Environment environment;
  private final String key;
 
  @Autowired
  private KeyStore(Environment environment) {
-  this.environment = environment;
   this.key = environment.getProperty("secret.key");
  }
 

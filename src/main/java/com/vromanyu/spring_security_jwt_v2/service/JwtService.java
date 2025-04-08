@@ -1,6 +1,5 @@
 package com.vromanyu.spring_security_jwt_v2.service;
 
-import com.vromanyu.spring_security_jwt_v2.constants.KeyStore;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -18,16 +17,16 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class JwtService {
 
- private final KeyStore keyStore;
+ private final KeyStoreService keyStoreService;
  private static final long expiration = TimeUnit.MINUTES.toMillis(30);
 
  @Autowired
- public JwtService(KeyStore keyStore) {
-  this.keyStore = keyStore;
+ public JwtService(KeyStoreService keyStoreService) {
+  this.keyStoreService = keyStoreService;
  }
 
  public String generateToken(UserDetails user) {
-  SecretKey key = Keys.hmacShaKeyFor(keyStore.getKey().getBytes(StandardCharsets.UTF_8));
+  SecretKey key = Keys.hmacShaKeyFor(keyStoreService.getKey().getBytes(StandardCharsets.UTF_8));
   return Jwts.builder().setSubject(user.getUsername())
    .setIssuedAt(new Date())
    .setExpiration(Date.from(Instant.now().plusMillis(expiration)))
@@ -38,7 +37,7 @@ public class JwtService {
  }
 
  public Claims parseTokenToClaims(String token) throws JwtException {
-  SecretKey key = Keys.hmacShaKeyFor(keyStore.getKey().getBytes(StandardCharsets.UTF_8));
+  SecretKey key = Keys.hmacShaKeyFor(keyStoreService.getKey().getBytes(StandardCharsets.UTF_8));
   return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
  }
 

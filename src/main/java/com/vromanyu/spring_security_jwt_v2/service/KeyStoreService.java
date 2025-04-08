@@ -1,16 +1,16 @@
-package com.vromanyu.spring_security_jwt_v2.constants;
+package com.vromanyu.spring_security_jwt_v2.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public final class KeyStore {
+@Service
+public final class KeyStoreService {
 
  private final String key;
 
  @Autowired
- private KeyStore(Environment environment) {
+ private KeyStoreService(Environment environment) {
   this.key = environment.getProperty("secret.key");
  }
 

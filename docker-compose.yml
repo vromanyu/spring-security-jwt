@@ -1,4 +1,3 @@
-version: '1.0'
 services:
   security_jwt:
     container_name: spring-jwt-backend

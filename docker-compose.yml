@@ -1,27 +1,31 @@
 version: '1.0'
 services:
   security_jwt:
+    container_name: spring-jwt-backend
+    env_file:
+      - ".env"
     build:
       context: .
       dockerfile: Dockerfile
     tty: true
     depends_on:
       - database
-    networks:
-      - security_network
     ports:
       - "8181:8181"
+    networks:
+      - security_network
+    restart: on-failure:10
   database:
+    container_name: spring-jwt-database
     image: mysql:latest
-    hostname: jwt_security
+    hostname: ${DATABASE_HOSTNAME}
     restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: "jwt@1234"
-      MYSQL_DATABASE: "jwt_security"
     ports:
       - "3306:3306"
     networks:
       - security_network
+    env_file:
+      - .env
 networks:
   security_network:
     driver: bridge

@@ -1,12 +1,11 @@
 package com.vromanyu.spring_security_jwt_v2.service;
 
-import com.vromanyu.spring_security_jwt_v2.constants.ApplicationConstants;
+import com.vromanyu.spring_security_jwt_v2.constants.KeyStore;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -19,21 +18,28 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class JwtService {
 
+ private final KeyStore keyStore;
  private static final long expiration = TimeUnit.MINUTES.toMillis(30);
- private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(ApplicationConstants.JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+
+ @Autowired
+ public JwtService(KeyStore keyStore) {
+  this.keyStore = keyStore;
+ }
 
  public String generateToken(UserDetails user) {
+  SecretKey key = Keys.hmacShaKeyFor(keyStore.getKey().getBytes(StandardCharsets.UTF_8));
   return Jwts.builder().setSubject(user.getUsername())
    .setIssuedAt(new Date())
    .setExpiration(Date.from(Instant.now().plusMillis(expiration)))
-   .signWith(SECRET_KEY)
+   .signWith(key)
    .setIssuer("spring-security-application")
    .claim("role", user.getAuthorities().toString())
    .compact();
  }
 
- public static Claims parseTokenToClaims(String token) throws JwtException {
-  return Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody();
+ public Claims parseTokenToClaims(String token) throws JwtException {
+  SecretKey key = Keys.hmacShaKeyFor(keyStore.getKey().getBytes(StandardCharsets.UTF_8));
+  return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
  }
 
 }

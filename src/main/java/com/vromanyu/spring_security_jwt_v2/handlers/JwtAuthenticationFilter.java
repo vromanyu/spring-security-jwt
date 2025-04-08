@@ -18,17 +18,18 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 @Configuration
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
  private final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
  private final MyUserDetailsService myUserDetailsService;
+ private final JwtService jwtService;
 
  @Autowired
- public JwtAuthenticationFilter(MyUserDetailsService myUserDetailsService) {
+ public JwtAuthenticationFilter(MyUserDetailsService myUserDetailsService, JwtService jwtService) {
   this.myUserDetailsService = myUserDetailsService;
+  this.jwtService = jwtService;
  }
 
  @Override
@@ -41,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   }
   String jwt = authHeader.substring(7);
   try {
-   Claims claims = JwtService.parseTokenToClaims(jwt);
+   Claims claims = jwtService.parseTokenToClaims(jwt);
    String username = claims.getSubject();
    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
     UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);

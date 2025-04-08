@@ -41,7 +41,6 @@ public class SecurityConfiguration {
    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
    .authorizeHttpRequests(req -> {
     req.requestMatchers("/home", "/register/**", "/authenticate", "/login").permitAll();
-    req.requestMatchers("/func/call").permitAll();
     req.requestMatchers("/admin/**").hasRole("ADMIN");
     req.requestMatchers("/user/**").hasRole("USER");
     req.anyRequest().authenticated();

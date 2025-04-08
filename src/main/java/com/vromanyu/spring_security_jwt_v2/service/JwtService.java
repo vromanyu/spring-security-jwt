@@ -1,5 +1,6 @@
 package com.vromanyu.spring_security_jwt_v2.service;
 
+import com.vromanyu.spring_security_jwt_v2.dto.JwtDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -25,15 +26,14 @@ public class JwtService {
   this.keyStoreService = keyStoreService;
  }
 
- public String generateToken(UserDetails user) {
+ public JwtDTO generateToken(UserDetails user) {
   SecretKey key = Keys.hmacShaKeyFor(keyStoreService.getKey().getBytes(StandardCharsets.UTF_8));
-  return Jwts.builder().setSubject(user.getUsername())
+  return new JwtDTO(Jwts.builder().setSubject(user.getUsername())
    .setIssuedAt(new Date())
    .setExpiration(Date.from(Instant.now().plusMillis(expiration)))
    .signWith(key)
    .setIssuer("spring-security-application")
-   .claim("role", user.getAuthorities().toString())
-   .compact();
+   .claim("role", user.getAuthorities().toString()).compact(), Date.from(Instant.now().plusMillis(expiration)), new Date());
  }
 
  public Claims parseTokenToClaims(String token) throws JwtException {

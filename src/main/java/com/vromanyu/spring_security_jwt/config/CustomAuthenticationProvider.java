@@ -11,8 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
- private MyUserDetailsService myUserDetailsService;
- private PasswordEncoder passwordEncoder;
+ private final MyUserDetailsService myUserDetailsService;
+ private final PasswordEncoder passwordEncoder;
 
  public CustomAuthenticationProvider(MyUserDetailsService myUserDetailsService, PasswordEncoder passwordEncoder) {
   this.myUserDetailsService = myUserDetailsService;

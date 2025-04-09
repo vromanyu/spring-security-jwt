@@ -1,4 +1,4 @@
-package com.vromanyu.spring_security_jwt.filters;
+package com.vromanyu.spring_security_jwt.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vromanyu.spring_security_jwt.exception.CustomAuthorizationException;

@@ -1,4 +1,4 @@
-package com.vromanyu.spring_security_jwt.filters;
+package com.vromanyu.spring_security_jwt.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vromanyu.spring_security_jwt.exception.CustomAuthenticationException;
@@ -17,7 +17,7 @@ public class CustomAuthenticationExceptionHandler implements AuthenticationEntry
  @Override
  public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
   response.setContentType("application/json");
-  String jsonResponse = new ObjectMapper().writeValueAsString(new CustomAuthenticationException(HttpStatus.UNAUTHORIZED.value(), authException.getMessage(), request.getRequestURI(), new Date()));
+  String jsonResponse = new ObjectMapper().writeValueAsString(new CustomAuthenticationException(HttpStatus.UNAUTHORIZED.value(), authException.getLocalizedMessage(), request.getRequestURI(), new Date()));
   response.getWriter().write(jsonResponse);
  }
 

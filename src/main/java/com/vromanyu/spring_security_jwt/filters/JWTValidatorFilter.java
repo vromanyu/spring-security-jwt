@@ -34,6 +34,7 @@ public class JWTValidatorFilter extends OncePerRequestFilter {
   if (jwt == null || !jwt.startsWith("Bearer ")) {
    throw new ServletException("Invalid JWT");
   }
+  jwt = jwt.substring(7);
   Key key = Keys.hmacShaKeyFor(keyStoreService.getKey().getBytes(StandardCharsets.UTF_8));
   Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
   Authentication authentication = new UsernamePasswordAuthenticationToken(claims.getSubject(), null,  AuthorityUtils.commaSeparatedStringToAuthorityList((String)claims.get("authorities")));

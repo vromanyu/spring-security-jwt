@@ -1,6 +1,6 @@
 package com.vromanyu.spring_security_jwt.controller;
 
-import com.vromanyu.spring_security_jwt.dto.LoginFormDto;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
  @PostMapping("/login")
- public String login(LoginFormDto loginFormDto) {
-  return "Welcome to spring-security-jwt: " + loginFormDto.getUsername();
+ public String login() {
+  return "Welcome to spring-security: " + SecurityContextHolder.getContext().getAuthentication();
  }
+
 }

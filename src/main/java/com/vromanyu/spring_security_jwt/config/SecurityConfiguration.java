@@ -1,9 +1,10 @@
 package com.vromanyu.spring_security_jwt.config;
 
 import com.vromanyu.spring_security_jwt.filters.*;
+import com.vromanyu.spring_security_jwt.handlers.CustomAuthenticationExceptionHandler;
+import com.vromanyu.spring_security_jwt.handlers.CustomAuthorizationExceptionHandler;
 import com.vromanyu.spring_security_jwt.service.KeyStoreService;
 import com.vromanyu.spring_security_jwt.service.MyUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,11 +28,18 @@ public class SecurityConfiguration {
  @Bean
  public SecurityFilterChain securityFilterChain(HttpSecurity http, KeyStoreService keyStoreService, MyUserDetailsService myUserDetailsService) throws Exception {
   return http
-   .securityContext(sctx -> sctx.requireExplicitSave(true))
+   .securityContext(conf -> conf.requireExplicitSave(true))
    .sessionManagement(session ->
     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
    .authorizeHttpRequests(req -> {
-    req.requestMatchers("/api/login").permitAll();
+    req.requestMatchers("/api/login", "/error").permitAll();
+    req.requestMatchers("/api/user").hasAnyAuthority("USER");
+    req.requestMatchers("/api/admin").hasAnyAuthority("ADMIN");
+    req.anyRequest().authenticated();
+   })
+   .exceptionHandling(conf -> {
+    conf.authenticationEntryPoint(new CustomAuthenticationExceptionHandler());
+    conf.accessDeniedHandler(new CustomAuthorizationExceptionHandler());
    })
    .cors(conf -> {
     conf.configurationSource(request -> {

@@ -1,4 +1,4 @@
-package com.vromanyu.spring_security_jwt_v2.exception;
+package com.vromanyu.spring_security_jwt.exception;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package com.vromanyu.spring_security_jwt_v2.entity;
+package com.vromanyu.spring_security_jwt.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

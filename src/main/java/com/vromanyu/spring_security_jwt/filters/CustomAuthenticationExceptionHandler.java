@@ -1,7 +1,7 @@
-package com.vromanyu.spring_security_jwt_v2.handlers;
+package com.vromanyu.spring_security_jwt.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vromanyu.spring_security_jwt_v2.exception.CustomAuthenticationException;
+import com.vromanyu.spring_security_jwt.exception.CustomAuthenticationException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

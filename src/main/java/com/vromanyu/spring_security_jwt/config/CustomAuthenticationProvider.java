@@ -1,6 +1,6 @@
-package com.vromanyu.spring_security_jwt_v2.config;
+package com.vromanyu.spring_security_jwt.config;
 
-import com.vromanyu.spring_security_jwt_v2.service.MyUserDetailsService;
+import com.vromanyu.spring_security_jwt.service.MyUserDetailsService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,8 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
- private final MyUserDetailsService myUserDetailsService;
- private final PasswordEncoder passwordEncoder;
+ private MyUserDetailsService myUserDetailsService;
+ private PasswordEncoder passwordEncoder;
 
  public CustomAuthenticationProvider(MyUserDetailsService myUserDetailsService, PasswordEncoder passwordEncoder) {
   this.myUserDetailsService = myUserDetailsService;

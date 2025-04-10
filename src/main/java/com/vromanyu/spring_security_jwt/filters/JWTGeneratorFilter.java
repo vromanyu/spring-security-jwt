@@ -2,30 +2,19 @@ package com.vromanyu.spring_security_jwt.filters;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vromanyu.spring_security_jwt.dto.LoginFormDto;
 import com.vromanyu.spring_security_jwt.service.KeyStoreService;
-import com.vromanyu.spring_security_jwt.service.MyUserDetailsService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.crypto.SecretKey;
@@ -69,9 +58,9 @@ public class JWTGeneratorFilter extends OncePerRequestFilter {
    SecurityContextHolder.getContext().setAuthentication(authentication);
   } catch (Exception e) {
    response.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
-  } finally {
-   filterChain.doFilter(request, response);
+   return;
   }
+  filterChain.doFilter(request, response);
  }
 
  @Override

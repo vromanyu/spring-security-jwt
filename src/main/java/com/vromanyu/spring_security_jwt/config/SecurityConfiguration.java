@@ -1,8 +1,6 @@
 package com.vromanyu.spring_security_jwt.config;
 
 import com.vromanyu.spring_security_jwt.filters.*;
-import com.vromanyu.spring_security_jwt.handlers.CustomAuthenticationExceptionHandler;
-import com.vromanyu.spring_security_jwt.handlers.CustomAuthorizationExceptionHandler;
 import com.vromanyu.spring_security_jwt.service.KeyStoreService;
 import com.vromanyu.spring_security_jwt.service.MyUserDetailsService;
 import org.springframework.context.annotation.Bean;
@@ -36,10 +34,6 @@ public class SecurityConfiguration {
     req.requestMatchers("/api/user").hasAnyAuthority("USER");
     req.requestMatchers("/api/admin").hasAnyAuthority("ADMIN");
     req.anyRequest().authenticated();
-   })
-   .exceptionHandling(conf -> {
-    conf.authenticationEntryPoint(new CustomAuthenticationExceptionHandler());
-    conf.accessDeniedHandler(new CustomAuthorizationExceptionHandler());
    })
    .cors(conf -> {
     conf.configurationSource(request -> {

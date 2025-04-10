@@ -1,7 +1,7 @@
-package com.vromanyu.spring_security_jwt_v2.config;
+package com.vromanyu.spring_security_jwt.config;
 
-import com.vromanyu.spring_security_jwt_v2.entity.MyUser;
-import com.vromanyu.spring_security_jwt_v2.repository.MyUserRepository;
+import com.vromanyu.spring_security_jwt.entity.MyUser;
+import com.vromanyu.spring_security_jwt.repository.MyUserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatabaseInitializationRunner implements CommandLineRunner {
 
- private final MyUserRepository myUserRepository;
- private final PasswordEncoder passwordEncoder;
+ private MyUserRepository myUserRepository;
+ private PasswordEncoder passwordEncoder;
 
  public DatabaseInitializationRunner(MyUserRepository myUserRepository, PasswordEncoder passwordEncoder) {
   this.myUserRepository = myUserRepository;

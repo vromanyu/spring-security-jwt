@@ -1,7 +1,7 @@
-package com.vromanyu.spring_security_jwt_v2.service;
+package com.vromanyu.spring_security_jwt.service;
 
-import com.vromanyu.spring_security_jwt_v2.entity.MyUser;
-import com.vromanyu.spring_security_jwt_v2.repository.MyUserRepository;
+import com.vromanyu.spring_security_jwt.entity.MyUser;
+import com.vromanyu.spring_security_jwt.repository.MyUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +22,7 @@ public class MyUserDetailsService implements UserDetailsService {
  @Override
  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
   MyUser user = myUserRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("user: " + username + " not found"));
-  return User.builder().username(user.getUsername()).password(user.getPassword()).roles(getRoles(user)).build();
+  return User.builder().username(user.getUsername()).password(user.getPassword()).authorities(getRoles(user)).build();
  }
 
  private String[] getRoles(MyUser myUser) {

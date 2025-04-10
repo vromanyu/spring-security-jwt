@@ -1,4 +1,4 @@
-package com.vromanyu.spring_security_jwt_v2;
+package com.vromanyu.spring_security_jwt;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
